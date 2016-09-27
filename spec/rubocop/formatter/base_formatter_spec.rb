@@ -14,18 +14,13 @@ module RuboCop
         let(:output) { $stdout.string }
 
         before do
-          create_file('1_offense.rb', [
-                        '# encoding: utf-8',
-                        '#' * 90
-                      ])
+          create_file('1_offense.rb', ['# encoding: utf-8', '#' * 90])
 
-          create_file('4_offenses.rb', [
-                        '# encoding: utf-8',
-                        'puts x ',
-                        'test;',
-                        'top;',
-                        '#' * 90
-                      ])
+          create_file('4_offenses.rb', ['# encoding: utf-8',
+                                        'puts x ',
+                                        'test;',
+                                        'top;',
+                                        '#' * 90])
 
           create_file('no_offense.rb', '# encoding: utf-8')
 
@@ -59,15 +54,10 @@ module RuboCop
           it 'is called in the proper sequence' do
             run
             expect(output).to eq([
-              'started',
-              'file_started',
-              'file_finished',
-              'file_started',
-              'file_finished',
-              'file_started',
-              'file_finished',
-              'finished',
-              ''
+              'started', 'file_started',
+              'file_finished', 'file_started',
+              'file_finished', 'file_started',
+              'file_finished', 'finished', ''
             ].join("\n"))
           end
         end

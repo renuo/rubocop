@@ -10,11 +10,11 @@ module RuboCop
 
       subject(:formatter) { described_class.new(output) }
       let(:output) do
-        o = StringIO.new
-        def o.path
-          '.rubocop_todo.yml'
+        StringIO.new.tap do |string_io|
+          def string_io.path
+            '.rubocop_todo.yml'
+          end
         end
-        o
       end
       let(:offenses) do
         [RuboCop::Cop::Offense.new(:convention, location, 'message', 'Cop1'),
@@ -42,19 +42,19 @@ module RuboCop
           formatter.finished(['test_a.rb', 'test_b.rb'])
           expect(output.string).to eq(format(described_class::HEADING,
                                              'rubocop --auto-gen-config') +
-                                      ['',
-                                       '',
-                                       '# Offense count: 2',
-                                       'Cop1:',
-                                       '  Exclude:',
-                                       "    - 'test_a.rb'",
-                                       "    - 'test_b.rb'",
-                                       '',
-                                       '# Offense count: 1',
-                                       'Cop2:',
-                                       '  Exclude:',
-                                       "    - 'test_a.rb'",
-                                       ''].join("\n"))
+                                        ['',
+                                         '',
+                                         '# Offense count: 2',
+                                         'Cop1:',
+                                         '  Exclude:',
+                                         "    - 'test_a.rb'",
+                                         "    - 'test_b.rb'",
+                                         '',
+                                         '# Offense count: 1',
+                                         'Cop2:',
+                                         '  Exclude:',
+                                         "    - 'test_a.rb'",
+                                         ''].join("\n"))
           expect($stdout.string)
             .to eq(['Created .rubocop_todo.yml.',
                     'Run `rubocop --config .rubocop_todo.yml`, or ' \
@@ -77,21 +77,21 @@ module RuboCop
           formatter.finished(['test_a.rb', 'test_b.rb'])
           expect(output.string).to eq(format(described_class::HEADING,
                                              'rubocop --auto-gen-config') +
-                                      ['',
-                                       '',
-                                       '# Offense count: 2',
-                                       'Cop1:',
-                                       '  Exclude:',
-                                       "    - 'Gemfile'",
-                                       "    - 'test_a.rb'",
-                                       "    - 'test_b.rb'",
-                                       '',
-                                       '# Offense count: 1',
-                                       'Cop2:',
-                                       '  Exclude:',
-                                       "    - '**/*.blah'",
-                                       "    - 'test_a.rb'",
-                                       ''].join("\n"))
+                                        ['',
+                                         '',
+                                         '# Offense count: 2',
+                                         'Cop1:',
+                                         '  Exclude:',
+                                         "    - 'Gemfile'",
+                                         "    - 'test_a.rb'",
+                                         "    - 'test_b.rb'",
+                                         '',
+                                         '# Offense count: 1',
+                                         'Cop2:',
+                                         '  Exclude:',
+                                         "    - '**/*.blah'",
+                                         "    - 'test_a.rb'",
+                                         ''].join("\n"))
         end
 
         it 'displays a file exclusion list up to a maximum of 15 offenses' do
@@ -112,17 +112,17 @@ module RuboCop
           formatter.finished(file_list)
           expect(output.string).to eq(format(described_class::HEADING,
                                              'rubocop --auto-gen-config') +
-                                      ['',
-                                       '',
-                                       '# Offense count: 16',
-                                       'Cop1:',
-                                       '  Enabled: false',
-                                       '',
-                                       '# Offense count: 15',
-                                       'Cop2:',
-                                       '  Exclude:',
-                                       exclusion_list,
-                                       ''].flatten.join("\n"))
+                                        ['',
+                                         '',
+                                         '# Offense count: 16',
+                                         'Cop1:',
+                                         '  Enabled: false',
+                                         '',
+                                         '# Offense count: 15',
+                                         'Cop2:',
+                                         '  Exclude:',
+                                         exclusion_list,
+                                         ''].flatten.join("\n"))
         end
 
         it 'creates a .rubocop_todo.yml even if RuboCop does not inspect ' \
@@ -130,7 +130,7 @@ module RuboCop
           formatter.finished([])
           expect(output.string).to eq(format(described_class::HEADING,
                                              'rubocop --auto-gen-config') +
-                                      "\n")
+                                        "\n")
         end
 
         context 'when exclude_limit option is passed into constructor' do
@@ -155,16 +155,16 @@ module RuboCop
             expect(output.string).to eq(format(described_class::HEADING,
                                                'rubocop --auto-gen-config ' \
                                                '--exclude-limit 5') +
-                                        ['',
-                                         '',
-                                         '# Offense count: 16',
-                                         'Cop1:',
-                                         '  Enabled: false',
-                                         '',
-                                         '# Offense count: 15',
-                                         'Cop2:',
-                                         '  Enabled: false',
-                                         ''].flatten.join("\n"))
+                                          ['',
+                                           '',
+                                           '# Offense count: 16',
+                                           'Cop1:',
+                                           '  Enabled: false',
+                                           '',
+                                           '# Offense count: 15',
+                                           'Cop2:',
+                                           '  Enabled: false',
+                                           ''].flatten.join("\n"))
           end
         end
       end

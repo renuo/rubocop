@@ -39,9 +39,7 @@ module RuboCop
     end
 
     describe '#report_file_as_mark' do
-      before do
-        formatter.report_file_as_mark(offenses)
-      end
+      before { formatter.report_file_as_mark(offenses) }
 
       def offense_with_severity(severity)
         source_buffer = Parser::Source::Buffer.new('test', 1)
@@ -91,9 +89,7 @@ module RuboCop
     end
 
     describe '#finished' do
-      before do
-        formatter.started(files)
-      end
+      before { formatter.started(files) }
 
       context 'when any offenses are detected' do
         before do
